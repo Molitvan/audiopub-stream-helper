@@ -51,10 +51,10 @@ def main(url: str, useSapi: str):
 
                     if active > listeners:
                         play(listener_join_sound)
-                        print(f"Listener joined: {listeners} listeners")
+                        print(f"Listener joined: {active} listeners")
                     elif active < listeners:
                         play(listener_leave_sound)
-                        print(f"Listener left: {listeners} listeners")
+                        print(f"Listener left: {active} listeners")
 
                     listeners = active
                 elif event.event == "finish":

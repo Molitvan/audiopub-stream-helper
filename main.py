@@ -5,7 +5,6 @@ import sseclient
 import time
 import playsound3
 import sys
-import chat_client
 
 connect_sound = "sounds/connect.wav"
 disconnect_sound = "sounds/disconnect.wav"
@@ -27,10 +26,6 @@ def main(url: str, useSapi: str):
         speech = prism.Context().create_best()
         print("Using best backend")
 
-    # Uncomment this if you want to have commands on your stream
-    # You also need to rename config.json.example to just config.json and fill in the values before this will work
-    # chat = chat_client.chat_client(url)
-
     listeners: int = 0
 
     while True:
@@ -51,11 +46,6 @@ def main(url: str, useSapi: str):
                     content = data["content"]
                     print(f"{name}: {content}")
                     speech.output(f"{name} said {content}")
-
-                    # Add commands here
-                    # Here is an example of a basic command
-                    # if content == "!ping":
-                    #     chat.send_message("Pong!")
                 elif event.event == "listeners":
                     active = data["activeListeners"]
 

@@ -11,3 +11,8 @@ wheels/
 
 # Creds
 config.json
+
+# Commands, except demo ones
+commands/
+!commands/__init__.py
+!commands/ping.py

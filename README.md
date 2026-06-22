@@ -6,6 +6,7 @@ A small utility to enhance the experience of streaming on [Audiopub](https://aud
 
 - Chat narration
 - Sound effects for when listeners leave and join, when the stream ends and when errors happen
+- Custom chat commands
 
 Yeah... when I said it's small, I meant it lol.
 

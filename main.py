@@ -6,6 +6,9 @@ import time
 import playsound3
 import sys
 import chat_client
+import pkgutil
+import importlib
+import commands as commands_package
 
 connect_sound = "sounds/connect.wav"
 disconnect_sound = "sounds/disconnect.wav"
@@ -19,17 +22,25 @@ def play(sound: str):
     except:
         pass
 
-def main(url: str, useSapi: str):
-    if useSapi != "":
+def main(url: str, use_sapi: str):
+    with open("config.json", "r") as file:
+        config = json.loads(file.read())
+        file.close()
+
+    commands = []
+    if config["enable_chat_commands"]:
+        for module_info in pkgutil.walk_packages(commands_package.__path__, commands_package.__name__ + "."):
+            commands.append(importlib.import_module(module_info.name))
+
+    if use_sapi != "":
         speech = prism.Context().create(prism.BackendId.SAPI)
         print("Useing SAPI")
     else:
         speech = prism.Context().create_best()
         print("Using best backend")
 
-    # Uncomment this if you want to have commands on your stream
-    # You also need to rename config.json.example to just config.json and fill in the values before this will work
-    # chat = chat_client.chat_client(url)
+    if config["enable_chat_commands"]:
+        chat = chat_client.chat_client(url)
 
     listeners: int = 0
 
@@ -50,12 +61,12 @@ def main(url: str, useSapi: str):
                     name = data["user"]["name"]
                     content = data["content"]
                     print(f"{name}: {content}")
-                    speech.output(f"{name} said {content}")
+                    if config["enable_chat_narration"]: speech.output(f"{name} said {content}")
 
-                    # Add commands here
-                    # Here is an example of a basic command
-                    # if content == "!ping":
-                    #     chat.send_message("Pong!")
+                    if config["enable_chat_commands"] and content.startswith(config["command_prefix"]):
+                        for command in commands:
+                            if command.name == "".lstrip(config["command_prefix"]):
+                                command.run(data)
                 elif event.event == "listeners":
                     active = data["activeListeners"]
 
@@ -86,6 +97,6 @@ def main(url: str, useSapi: str):
 if __name__ == "__main__":
     print("Welcome to Audiopub Stream Helper")
     url = input("Enter the stream URL: ").rstrip("/")
-    useSapi = input("Would you like to force use SAPI for output? Press enter for no, type anything for yes: ")
-    main(url, useSapi)
+    use_sapi = input("Would you like to force use SAPI for output? Press enter for no, type anything for yes: ")
+    main(url, use_sapi)
     input("Press ENTER to exit")

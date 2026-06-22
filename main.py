@@ -65,8 +65,8 @@ def main(url: str, use_sapi: str):
 
                     if config["enable_chat_commands"] and content.startswith(config["command_prefix"]):
                         for command in commands:
-                            if command.name == "".lstrip(config["command_prefix"]):
-                                command.run(data)
+                            if command.name == content.lstrip(config["command_prefix"]):
+                                command.run(data, chat)
                 elif event.event == "listeners":
                     active = data["activeListeners"]
 

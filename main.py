@@ -37,7 +37,7 @@ def play(sound: str):
     except:
         pass
 
-def main(url: str, use_sapi: str):
+def main():
     try:
         config = load_config()
     except Exception as error:
@@ -49,6 +49,10 @@ def main(url: str, use_sapi: str):
     if config["enable_chat_commands"]:
         for module_info in pkgutil.walk_packages(commands_package.__path__, commands_package.__name__ + "."):
             commands.append(importlib.import_module(module_info.name))
+
+    print("Welcome to Audiopub Stream Helper")
+    url = input("Enter the stream URL: ").rstrip("/")
+    use_sapi = input("Would you like to force use SAPI for output? Press enter for no, type anything for yes: ")
 
     if use_sapi != "":
         speech = prism.Context().create(prism.BackendId.SAPI)
@@ -113,8 +117,5 @@ def main(url: str, use_sapi: str):
             time.sleep(5)
 
 if __name__ == "__main__":
-    print("Welcome to Audiopub Stream Helper")
-    url = input("Enter the stream URL: ").rstrip("/")
-    use_sapi = input("Would you like to force use SAPI for output? Press enter for no, type anything for yes: ")
-    main(url, use_sapi)
+    main()
     input("Press ENTER to exit")

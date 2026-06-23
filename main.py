@@ -20,7 +20,7 @@ error_sound = "sounds/error.wav"
 
 def load_config():
     if not  os.path.exists("config.json"):
-        default_config = { "credentials": { "email": "your_email", "password": "your_password" }, "url": "https://audiopub.site", "enable_chat_narration": True, "enable_chat_commands": False, "command_prefix": "!" }
+        default_config = { "credentials": { "email": "your_email", "password": "your_password" }, "url": "https://audiopub.site", "enable_chat_narration": True, "enable_chat_commands": False, "command_prefix": "!", "enabled_sounds": { "connect": True, "disconnect": True, "error": True, "listener_join": True, "listener_leave": True } }
         with open("config.json", "w") as file:
             json.dump(default_config, file, indent=4)
             file.close()
@@ -76,7 +76,7 @@ def main():
     while True:
         try:
             print("Connecting...")
-            play(connect_sound)
+            if config["enabled_sounds"]["connect"]: play(connect_sound)
 
             response = requests.get(f"{url}/events", stream=True, timeout=None)
             response.raise_for_status()
@@ -103,10 +103,10 @@ def main():
                     active = data["activeListeners"]
 
                     if active > listeners:
-                        play(listener_join_sound)
+                        if config["enabled_sounds"]["listener_join"]: play(listener_join_sound)
                         print(f"Listener joined: {active} listeners")
                     elif active < listeners:
-                        play(listener_leave_sound)
+                        if config["enabled_sounds"]["listener_leave"]: play(listener_leave_sound)
                         print(f"Listener left: {active} listeners")
 
                     listeners = active
@@ -114,16 +114,16 @@ def main():
                     message = "Stream finished. Exiting..."
                     speech.output(message)
                     print(message)
-                    play(disconnect_sound)
+                    if config["enabled_sounds"]["disconnect"]: play(disconnect_sound)
                     return
         except KeyboardInterrupt:
             print("Exiting...")
-            play(disconnect_sound)
+            if config["enabled_sounds"]["disconnect"]: play(disconnect_sound)
             sys.exit(0)
         except Exception as error:
             print(f"Disconnected: {error}")
             print("Trying to reconnect in 5 seconds...")
-            play(error_sound)
+            if config["enabled_sounds"]["error"]: play(error_sound)
             time.sleep(5)
 
 if __name__ == "__main__":

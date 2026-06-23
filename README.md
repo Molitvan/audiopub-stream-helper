@@ -31,11 +31,11 @@ All commands are just simply Python files with a specific structure. A variable 
 
 There are some demo commands included. Feel free to look through those to understand how they work better.
 
+Note: in order to use custom commands, you must fill out config.json (generated on first run) with your Audiopub email and password
+
 ## Customizing the sounds
 
-You can customize the default sounds by replacing files in the sounds folder. To disable a sound, delete it from the folder or rename it.
-
-Note: in order to use custom commands, you must fill out config.json (generated on first run) with your Audiopub email and password
+You can customize the default sounds by replacing files in the sounds folder. To disable a sound, see config.json (generated automatically on first run).
 
 ## Maintenance
 

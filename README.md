@@ -33,6 +33,28 @@ There are some demo commands included. Feel free to look through those to unders
 
 Note: in order to use custom commands, you must fill out config.json (generated on first run) with your Audiopub email and password. Also, commands are disabled by default, so if you want to use them you have to set enable_chat_commands to true in config.json.
 
+#### Commands Data
+
+When you make a command, you get a dictionary called data containing data from Audiopub. This is its structure:
+- id: str (the ID of the message)
+- content: str (the content of the message)
+- createdAt: int (when was the message sent)
+- user: dict (a dictionary containing information about the user who sent the message)
+    - id: str (the user's ID)
+    - name: str (the user's username)
+    - displayName: str (the user's display name)
+    - bio: str (the user's bio)
+- stream: dict (a dictionary containing information about the stream)
+    - id: str (the ID of the stream)
+    - title: str (the title of the stream)
+    - description: str (the description of the stream)
+    - state: enum (the state of the stream, can be: pending, active, disconnected, finished)
+    - peakListeners: int (the most amount of listeners the stream had)
+    - activeListeners: int (how many listeners the stream currently has)
+    - createdAt: int (when was the stream started)
+    - user: dict (same as above)
+    - chats: list of dicts or None (a list of all the previous chat messages. The messages all have the same structure as the data dictionary described here)
+
 ## Customizing the sounds
 
 You can customize the default sounds by replacing files in the sounds folder. To disable a sound, see config.json (generated automatically on first run).

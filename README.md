@@ -61,4 +61,4 @@ You can customize the default sounds by replacing files in the sounds folder. To
 
 ## Maintenance
 
-I made this tool in about an hour (including the sounds) and I plan on maintaining it only for how much my needs require. I made it for myself first, but I'm posting it here in case someone else finds it interesting. That said, feel free to open pull requests or fork this if you want something added.
+I made this tool just for fun and I plan on maintaining it only while it's fun for me to do so. I made it for myself first, but I'm posting it here in case someone else finds it interesting. That said, feel free to open pull requests or fork this if you want something added.

@@ -31,7 +31,7 @@ All commands are just simply Python files with a specific structure. A variable 
 
 There are some demo commands included. Feel free to look through those to understand how they work better.
 
-Note: in order to use custom commands, you must fill out config.json (generated on first run) with your Audiopub email and password
+Note: in order to use custom commands, you must fill out config.json (generated on first run) with your Audiopub email and password. Also, commands are disabled by default, so if you want to use them you have to set enable_chat_commands to true in config.json.
 
 ## Customizing the sounds
 

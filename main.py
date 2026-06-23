@@ -9,12 +9,27 @@ import chat_client
 import pkgutil
 import importlib
 import commands as commands_package
+import os
 
 connect_sound = "sounds/connect.wav"
 disconnect_sound = "sounds/disconnect.wav"
 listener_join_sound = "sounds/listener_join.wav"
 listener_leave_sound = "sounds/listener_leave.wav"
 error_sound = "sounds/error.wav"
+
+def load_config():
+    if not  os.path.exists("config.json"):
+        default_config = { "credentials": { "email": "your_email", "password": "your_password" }, "url": "https://audiopub.site", "enable_chat_narration": True, "enable_chat_commands": False, "command_prefix": "!" }
+        with open("config.json", "w") as file:
+            json.dump(default_config, file, indent=4)
+            file.close()
+        print("No config file found. One has been generated for you at config.json.")
+        sys.exit(0)
+    else:
+        with open("config.json", "r") as file:
+            config = json.loads(file.read())
+            file.close()
+        return config
 
 def play(sound: str):
     try:
@@ -23,9 +38,12 @@ def play(sound: str):
         pass
 
 def main(url: str, use_sapi: str):
-    with open("config.json", "r") as file:
-        config = json.loads(file.read())
-        file.close()
+    try:
+        config = load_config()
+    except Exception as error:
+        print("There's a problem with your config file. Please check config.json and if you can't figure out what's wrong, delete it and run this again")
+        print(error)
+        return
 
     commands = []
     if config["enable_chat_commands"]:

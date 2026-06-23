@@ -10,6 +10,7 @@ import pkgutil
 import importlib
 import commands as commands_package
 import os
+import traceback
 
 connect_sound = "sounds/connect.wav"
 disconnect_sound = "sounds/disconnect.wav"
@@ -48,7 +49,13 @@ def main():
     commands = []
     if config["enable_chat_commands"]:
         for module_info in pkgutil.walk_packages(commands_package.__path__, commands_package.__name__ + "."):
-            commands.append(importlib.import_module(module_info.name))
+            try:
+                command = importlib.import_module(module_info.name)
+                commands.append(command)
+            except Exception:
+                print(f"Failed to load command {module_info.name}")
+                traceback.print_exc()
+                return
 
     print("Welcome to Audiopub Stream Helper")
     url = input("Enter the stream URL: ").rstrip("/")
@@ -87,8 +94,11 @@ def main():
 
                     if config["enable_chat_commands"] and content.startswith(config["command_prefix"]):
                         for command in commands:
-                            if command.name == content.lstrip(config["command_prefix"]):
-                                command.run(data, chat)
+                            try:
+                                if command.name == content.removeprefix(config["command_prefix"]): command.run(data, chat)
+                            except Exception:
+                                print(f"Error evaluating command")
+                                traceback.print_exc()
                 elif event.event == "listeners":
                     active = data["activeListeners"]
 

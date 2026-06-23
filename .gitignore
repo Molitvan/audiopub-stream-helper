@@ -8,3 +8,13 @@ wheels/
 
 # Virtual environments
 .venv
+
+# Creds
+config.json
+
+# Commands, except demo ones
+commands/*
+!commands
+!commands/__init__.py
+!commands/ping.py
+!commands/random.py

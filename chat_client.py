@@ -1,5 +1,7 @@
 import requests
 import json
+import sys
+from main import play, error_sound
 
 class chat_client():
     base_url: str
@@ -14,11 +16,11 @@ class chat_client():
 
         login_response = self.session.post(f"{self.base_url}/login", data={ "email": config["credentials"]["email"], "password": config["credentials"]["password"] }, allow_redirects=False)
 
-        if login_response.status_code not in (200, 303, 302):
-            print("Login failed")
-            print("Status:", login_response.status_code)
-            print(login_response.text)
-            raise SystemExit(1)
+        if "failure" in login_response.text:
+            print("Login failed. Check your email and password.")
+            print("If you want to use Audiopub Stream Helper without loggin in, you must disable chat commands in config.json.")
+            if config["enabled_sounds"]["error"]: play(error_sound)
+            sys.exit(1)
 
         print("Logged in.")
 
@@ -29,6 +31,6 @@ class chat_client():
             print("Chat send failed")
             print("Status:", chat_response.status_code)
             print(chat_response.text)
-            raise SystemExit(1)
+            raise Exception()
         
         return True

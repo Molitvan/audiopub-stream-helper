@@ -32,9 +32,9 @@ def load_config():
             file.close()
         return config
 
-def play(sound: str):
+def play(sound: str, block=False):
     try:
-        playsound3.playsound(sound, False)
+        playsound3.playsound(sound, block)
     except:
         pass
 
@@ -114,11 +114,11 @@ def main():
                     message = "Stream finished. Exiting..."
                     speech.output(message)
                     print(message)
-                    if config["enabled_sounds"]["disconnect"]: play(disconnect_sound)
+                    if config["enabled_sounds"]["disconnect"]: play(disconnect_sound, True)
                     return
         except KeyboardInterrupt:
             print("Exiting...")
-            if config["enabled_sounds"]["disconnect"]: play(disconnect_sound)
+            if config["enabled_sounds"]["disconnect"]: play(disconnect_sound, True)
             sys.exit(0)
         except Exception as error:
             print(f"Disconnected: {error}")

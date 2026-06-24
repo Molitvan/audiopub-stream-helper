@@ -19,7 +19,7 @@ class chat_client():
         if "failure" in login_response.text:
             print("Login failed. Check your email and password.")
             print("If you want to use Audiopub Stream Helper without loggin in, you must disable chat commands in config.json.")
-            if config["enabled_sounds"]["error"]: play(error_sound)
+            if config["enabled_sounds"]["error"]: play(error_sound, True)
             sys.exit(1)
 
         print("Logged in.")

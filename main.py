@@ -39,6 +39,8 @@ def play(sound: str, block=False):
         pass
 
 def main():
+    global config
+
     try:
         config = load_config()
     except Exception as error:
@@ -117,9 +119,7 @@ def main():
                     if config["enabled_sounds"]["disconnect"]: play(disconnect_sound, True)
                     return
         except KeyboardInterrupt:
-            print("Exiting...")
-            if config["enabled_sounds"]["disconnect"]: play(disconnect_sound, True)
-            sys.exit(0)
+            return
         except Exception as error:
             print(f"Disconnected: {error}")
             print("Trying to reconnect in 5 seconds...")
@@ -127,5 +127,9 @@ def main():
             time.sleep(5)
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("Exiting...")
+        if config["enabled_sounds"]["disconnect"]: play(disconnect_sound, True)
     input("Press ENTER to exit")

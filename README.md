@@ -33,6 +33,8 @@ There are some demo commands included. Feel free to look through those to unders
 
 Note: in order to use custom commands, you must fill out config.json (generated on first run) with your Audiopub email and password. Also, commands are disabled by default, so if you want to use them you have to set enable_chat_commands to true in config.json.
 
+[Listen to the custom commands tutorial](https://audiopub.site/listen/e15601c5-7a30-4e49-9c75-f84afd2b6424)
+
 #### Commands Data
 
 When you make a command, you get a dictionary called data containing data from Audiopub. This is its structure:

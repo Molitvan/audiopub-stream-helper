@@ -83,6 +83,13 @@ def main():
             response = requests.get(f"{url}/events", stream=True, timeout=None)
             response.raise_for_status()
 
+            if not response.ok or response.status_code == 204:
+                print("Error connecting to stream. Check the URL.")
+                print(response.status_code)
+                print(response.text)
+                if config["enabled_sounds"]["error"]: play(error_sound, True)
+                return
+
             client = sseclient.SSEClient(response)
 
             for event in client.events():

@@ -69,7 +69,7 @@ def main():
         print("Using best backend")
 
     if config["enable_chat_commands"]:
-        chat = chat_client.chat_client(url)
+        chat = chat_client.chat_client(url, config)
 
     listeners: int = 0
 

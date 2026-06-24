@@ -6,12 +6,8 @@ class chat_client():
     stream_url: str
     session: requests.Session
 
-    def __init__(self, stream_url: str):
+    def __init__(self, stream_url: str, config):
         self.stream_url = stream_url
-
-        with open("config.json", "r") as file:
-            config = json.loads(file.read())
-            file.close()
 
         self.session = requests.session()
         self.base_url = config["url"]

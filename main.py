@@ -34,7 +34,7 @@ def load_config():
 
 def play(sound: str):
     try:
-        playsound3.playsound(sound)
+        playsound3.playsound(sound, False)
     except:
         pass
 
